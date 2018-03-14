@@ -1,0 +1,24 @@
+%!
+% Example of rotation... draws 36 lines in a circular pattern
+
+/x 0 def
+/add10{
+   /x x 10 add def
+}def
+
+0 10 360 {              % Go from 0 to 360 degrees in 10 degree steps
+  newpath               % Start a new path
+  gsave                 % Keep rotations temporary
+    72 4 mul 72 6 mul moveto
+    rotate              % Rotate by degrees on stack from 'for'
+    x 72 add 0 rlineto
+    stroke
+  grestore              % Get back the unrotated state
+  add10
+} for                   % Iterate over angles
+
+showpage
+
+
+
+

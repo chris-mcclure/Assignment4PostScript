@@ -1,0 +1,42 @@
+%!
+% Draw a box at 72, 72 using translate
+
+% operator box: xcoord ycoord box -
+% Creates one inch box at xcoord, ycoord
+
+/i 0 def
+/j 0 def
+
+/addI{ 
+  /i i 1 add def
+}def
+
+/addJ{
+  /j j 1 add def
+} def
+
+/box {
+   newpath
+   moveto
+   72 0 rlineto
+   0 72 rlineto
+   -72 0 rlineto
+   closepath 
+} def
+
+i 1 2{
+gsave                           % Preserve the old coordinates
+  72 i mul 0 translate          % Set origin to (72, 72)
+  0 0 box stroke                % Draw the box at the new origin
+  j 1 2{
+    gsave
+    0 72 j mul translate
+    0 0 box stroke 
+    grestore
+    addJ
+    }for
+
+grestore                        % Restore the old coordinates
+addI
+}for
+showpage
