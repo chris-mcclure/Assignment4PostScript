@@ -4,6 +4,11 @@
 % Define an operator box which builds a path for a one inch square box
 % Note that box does not draw or fill the box.
 
+/x 0 def
+/add45{
+  /x x 1 add
+} def
+
 /box {
   newpath
   moveto                                % Current point is on stack
@@ -13,6 +18,7 @@
   closepath                             % Bottom
 } def
 
+72 72 box stroke
 0 setgray                               % 100% black
 1 setlinewidth                          % One point thick lines
 72 72 moveto 72 144 lineto stroke       % Draw a one inch line
@@ -26,7 +32,18 @@ gsave                                   % Save a copy of the current settings
   fill                                  %   and fill it.
 grestore                                % Go back to the original settings
 
-3 setlinewidth                          % Make the box lines wider
-300 72 box stroke                       % Draw a black box
+
+%45 rotate
+%300 72 box  stroke
+
+
+0 10 360{
+ 10 x mul rotate 
+ gsave
+  3 setlinewidth 		     % Make the box lines wider	 
+  300 72 box stroke		     % Draw a black box 
+ grestore    
+  add45
+}for
 
 showpage
