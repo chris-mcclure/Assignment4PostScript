@@ -15,6 +15,10 @@
   /j j 1 add def
 } def
 
+/resetJ{
+  /j 0 def
+}def
+
 /box {
    newpath
    moveto
@@ -30,11 +34,12 @@ gsave                           % Preserve the old coordinates
   0 0 box stroke                % Draw the box at the new origin
   j 1 2{
     gsave
-    0 72 j mul translate
-    0 0 box stroke 
+    0 72 j mul translate        % Set origin of new box at a multiple of 72
+    0 0 box stroke 		
     grestore
     addJ
     }for
+    resetJ
 
 grestore                        % Restore the old coordinates
 addI
