@@ -38,12 +38,14 @@ grestore                                % Go back to the original settings
 
 
 0 10 360{
- 10 x mul rotate 
+rotate
  gsave
   3 setlinewidth 		     % Make the box lines wider	 
-  300 72 box stroke		     % Draw a black box 
+  %300 72 translate
+  0 0 box stroke		     % Draw a black box 
+  
  grestore    
-  add45
+ add45
 }for
 
 showpage
