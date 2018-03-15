@@ -1,0 +1,194 @@
+%!
+% Chris McClure
+% Assignment 4
+
+
+%% Pages: 6
+%% Page: 1 1
+%% 3-sided box
+
+/inch {72 mul} def      % Convert inches->points (1/72 inch)
+
+newpath                 % Start a new path
+1 inch 1 inch moveto    % an inch in from the lower left
+2 inch 1 inch lineto    % bottom side
+2 inch 2 inch lineto    % right side
+1 inch 2 inch lineto    % top side
+
+stroke                  % Draw the box on the paper
+showpage                % We're done... eject the page
+
+
+% Example of rotation... draws 36 lines in a circular pattern
+%% Pages: 6 
+%% Page: 2 2
+
+/x 0 def
+/add10{
+   /x x 10 add def
+}def
+
+0 10 360 {              % Go from 0 to 360 degrees in 10 degree steps
+  newpath               % Start a new path
+  gsave                 % Keep rotations temporary
+    72 4 mul 72 6 mul moveto
+    rotate              % Rotate by degrees on stack from 'for'
+    x 72 add 0 rlineto
+    stroke
+  grestore              % Get back the unrotated state
+  add10
+} for                   % Iterate over angles
+
+showpage
+
+
+%% Pages: 6
+%% Page: 3 3
+% 3x3 box array
+
+% operator box: xcoord ycoord box -
+% Creates one inch box at xcoord, ycoord
+
+/i 0 def  % i = 0
+/j 0 def  % j = 0
+
+/addI{ 
+  /i i 1 add def   % i = i+1
+}def		   
+
+/addJ{
+  /j j 1 add def   % j = j+1
+} def
+
+/resetJ{
+  /j 0 def	   % reset j to 0 for loop
+}def
+
+/box {		   
+   newpath
+   moveto
+   72 0 rlineto
+   0 72 rlineto
+   -72 0 rlineto
+   closepath 
+} def
+
+i 1 2{
+gsave                           % Preserve the old coordinates
+  72 i mul 0 translate          % Set origin to (72, 72)
+  0 0 box stroke                % Draw the horizontal box's at the new origins
+  j 1 2{
+    gsave
+    0 72 j mul translate        % Set origin of new box at a multiple of 72
+    0 0 box stroke 		% Draw the vertical box's at the new origins
+    grestore
+    addJ
+    }for
+    resetJ			%reset j so that we can create a new column
+
+grestore                        % Restore the old coordinates
+addI
+}for
+showpage
+
+
+
+%% Pages: 6
+%% Page : 4 4
+% Demonstrate shading and width in drawing lines and filling shapes
+
+% Define an operator box which builds a path for a one inch square box
+% Note that box does not draw or fill the box.
+% Rotate Box
+
+/box {
+  newpath
+  moveto                                % Current point is on stack
+  0 72 rlineto                          % Left
+  72 0 rlineto                          % Top
+  0 -72 rlineto                         % Right
+  closepath                             % Bottom
+} def
+
+72 72 box stroke
+0 setgray                               % 100% black
+1 setlinewidth                          % One point thick lines
+72 72 moveto 72 144 lineto stroke       % Draw a one inch line
+
+gsave                                   % Save a copy of the current settings
+  0.5 setgray                           % 50% black
+  10 setlinewidth                       % 10 point wide lines
+  144 72 moveto 144 144 lineto stroke   % Draw a one inch wide line
+  216 72 box                            % Build a square path...
+  0.35 setgray                          %   make it a little darker...
+  fill                                  %   and fill it.
+grestore                                % Go back to the original settings
+
+
+
+
+3 setlinewidth 		     % Make the box lines wider
+300 72 translate	     % Make the location of the third box the origin
+0 10 360{		     % Rotate the box by the step size: 10
+ rotate
+ gsave			     % Make rotations temporary
+   0 0 box		     % Create box at the origin
+   stroke		     % Draw the boxes
+ grestore		     % Bring the original box back
+
+}for
+
+showpage
+
+
+%% Pages: 6
+%% Page: 5 5
+% Circle
+
+%green part
+200 200 110 180 0 arc closepath
+0 1 0.5 setrgbcolor fill
+stroke
+
+%melon
+200 200 100 180 0 arc closepath
+1 0 0.3 setrgbcolor fill
+stroke
+
+
+240 220 40 0 360 arc closepath
+0.95 setgray fill
+stroke
+
+160 220 40 0 360 arc closepath
+0.95 setgray fill
+stroke
+
+240 220 10 0 360 arc closepath
+0 setgray fill
+stroke
+
+160 220 10 0 360 arc closepath
+0 setgray fill
+stroke
+
+200 175 50 180 0 arc closepath
+1 setgray fill
+stroke
+showpage 
+
+%% Pages: 6
+%% Page: 6 6
+% Sample of printing text
+
+
+/Times-Roman findfont   % Get the basic font
+20 scalefont            % Scale the font to 20 points
+setfont                 % Make it the current font
+
+newpath                 % Start a new path
+300 300 moveto            % Lower left corner of text at (72, 72)
+(PAGE 6!!) show    % Typeset "Hello, world!"
+
+showpage
+
