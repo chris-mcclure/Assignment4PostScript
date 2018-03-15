@@ -3,11 +3,7 @@
 
 % Define an operator box which builds a path for a one inch square box
 % Note that box does not draw or fill the box.
-
-/x 0 def
-/add45{
-  /x x 1 add
-} def
+% Rotate Box
 
 /box {
   newpath
@@ -33,19 +29,17 @@ gsave                                   % Save a copy of the current settings
 grestore                                % Go back to the original settings
 
 
-%45 rotate
-%300 72 box  stroke
 
 
-0 10 360{
-rotate
- gsave
-  3 setlinewidth 		     % Make the box lines wider	 
-  %300 72 translate
-  0 0 box stroke		     % Draw a black box 
-  
- grestore    
- add45
+3 setlinewidth 		     % Make the box lines wider
+300 72 translate	     % Make the location of the third box the origin
+0 10 360{		     % Rotate the box by the step size: 10
+ rotate
+ gsave			     % Make rotations temporary
+   0 0 box		     % Create box at the origin
+   stroke		     % Draw the boxes
+ grestore		     % Bring the original box back
+
 }for
 
 showpage
